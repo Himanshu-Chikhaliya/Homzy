@@ -10,9 +10,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       domain="dev-ty3gqrptzwayw4xv.us.auth0.com"
       clientId="jR2OPW8S2KvbHWKImMLHuERVEBqZb7i2"
       authorizationParams={{
-        redirect_uri: "http://localhost:5173"
+        redirect_uri: "https://homzy-rouge.vercel.app/"
       }}
-      audience="http://localhost:8000"
+      audience="https://homzy-phi.vercel.app/"
       scope="openid profile email"
     >
       <App />
