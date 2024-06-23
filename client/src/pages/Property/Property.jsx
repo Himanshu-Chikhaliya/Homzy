@@ -125,7 +125,6 @@ const Property = () => {
                                 {data?.address}{""}{data?.city}{""}{data?.country}
                             </span>
                         </div>
-
                         {/* booking button  */}
                         {
                             bookings?.map((bookings) => bookings.id).includes(id) ? (
@@ -138,7 +137,7 @@ const Property = () => {
                                         Your visit already booked for date {bookings?.filter((booking) => booking?.id === id)[0].date}
                                     </span>
                                 </>
-                            ) : (
+                            ):(
                                 <button className="button"
                                     onClick={() => {
                                         validateLogin() && setModalOpened(true)

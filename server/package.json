@@ -6,8 +6,7 @@
   "type": "module",
 
   "scripts": {
-    "start": "nodemon index.js",
-    "postinstall": "prisma generate"
+    "start": "nodemon index.js"
   },
 
   "dependencies": {
