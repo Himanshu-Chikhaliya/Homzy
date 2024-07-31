@@ -101,13 +101,13 @@ const Property = () => {
                             {/* parkings */}
                             <div className="flexStart fascility">
                                 <AiTwotoneCar size={20} color="#1F3E72" />
-                                <span>{data?.facilities?.parking} parking</span>
+                                <span>{data?.facilities?.parkings} parking</span>
                             </div>
 
                             {/* bedrooms  */}
                             <div className="flexStart fascility">
                                 <MdMeetingRoom size={20} color="#1F3E72" />
-                                <span>{data?.facilities.bedrooms} Room/s</span>
+                                <span>{data?.facilities?.bedrooms} Room/s</span>
                             </div>
                         </div>
 
