@@ -23,11 +23,12 @@ const BookingModal = ({ opened, setOpened, email ,propertyId}) => {
             bookings: [
                 ...prev.bookings,
                 {
-                    id: propertyId, date: dayjs(value).format('DD/MM/YYYY')
-                }
-            ]
-        }))
-    }
+                    id: propertyId, 
+                    date: dayjs(value).format("DD/MM/YYYY"),
+                },
+            ],
+        }));
+    };
 
     const {mutate, isLoading} = useMutation({
         mutationFn: () => bookVisit(value,propertyId,email, token),
