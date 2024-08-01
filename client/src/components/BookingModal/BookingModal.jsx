@@ -38,21 +38,19 @@ const BookingModal = ({ opened, setOpened, email ,propertyId}) => {
     })
 
     return (
-        <MantineProvider>
-            <Modal
-                opened={opened}
-                onClose={() => { setOpened(false) }}
-                title="Select your date of visit"
-                centered
-            >
-                <div className="flexColCenter" style={{gap: "1rem"}}>
-                    <DatePicker popoverProps={{ withinPortal: true }} value={value} onChange={setValue} minDate={new Date()}/>
-                    <Button disabled={!value || isLoading} onClick={() => mutate()}>
-                        Book Visit
-                    </Button>
-                </div>
-            </Modal>
-        </MantineProvider>
+        <Modal
+          opened={opened}
+          onClose={() => setOpened(false)}
+          title="Select your date of visit"
+          centered
+        >
+            <div className="flexColCenter" style={{gap: "1rem"}}>
+            <DatePicker value={value} onChange={setValue} minDate={new Date()} />
+            <Button disabled={!value || isLoading} onClick={() => mutate()}>
+              Book visit
+            </Button>
+          </div>
+        </Modal>
     )
 }
 
