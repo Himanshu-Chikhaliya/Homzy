@@ -28,7 +28,7 @@ const Property = () => {
 
     const [modalOpened, setModalOpened] = useState(false)
     const { validateLogin } = useAuthCheck()
-    const { user } = useAuth0
+    const { user } = useAuth0();
 
 
     const { userDetails: { token, bookings }, setUserDetails } = useContext(UserDetailContext);
