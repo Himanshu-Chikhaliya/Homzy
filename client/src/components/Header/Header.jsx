@@ -18,7 +18,7 @@ const Header = () => {
   const {validateLogin} = useAuthCheck()
   const handleAddPropertyClick = () => {
     if(validateLogin()) {
-      setMenuOpened(true);
+      setModalOpened(true);
     }
   }
 
