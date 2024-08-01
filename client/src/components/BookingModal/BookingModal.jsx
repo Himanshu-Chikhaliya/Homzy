@@ -38,6 +38,7 @@ const BookingModal = ({ opened, setOpened, email ,propertyId}) => {
     })
 
     return (
+        <MantineProvider>
         <Modal
           opened={opened}
           onClose={() => setOpened(false)}
@@ -51,6 +52,7 @@ const BookingModal = ({ opened, setOpened, email ,propertyId}) => {
             </Button>
           </div>
         </Modal>
+        </MantineProvider>
     )
 }
 
