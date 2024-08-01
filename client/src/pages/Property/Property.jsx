@@ -14,7 +14,7 @@ import useAuthCheck from '../../hooks/useAuthCheck';
 import { useAuth0 } from '@auth0/auth0-react';
 import BookingModal from '../../components/BookingModal/BookingModal.jsx';
 import UserDetailContext from '../../Context/UseDetailContext.js';
-import { Button } from '@mantine/core';
+import { Button, MantineProvider } from '@mantine/core';
 import { toast } from 'react-toastify';
 import Heart from '../../components/Heart/Heart.jsx';
 
@@ -130,9 +130,11 @@ const Property = () => {
                         {
                             bookings?.map((bookings) => bookings.id).includes(id) ? (
                                 <>
+                                    <MantineProvider>
                                     <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
                                         <span>Cancel booking</span>
                                     </Button>
+                                    </MantineProvider>
 
                                     <span>
                                         Your visit already booked for date {bookings?.filter((booking) => booking?.id === id)[0].date}
