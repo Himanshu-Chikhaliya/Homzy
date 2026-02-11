@@ -14,13 +14,19 @@ const Residencies = () => {
 
   const {data, isError, isLoading} = useProperties();
 
-  if(isError){
-    return(
-        <div className="wrapper">
-            <span>Error while fetching data</span>
-        </div>
-    )
-}
+  if (isError) {
+    return (
+      <div className="wrapper flexCenter" style={{ height: "60vh" }}>
+        <PuffLoader
+          height="80"
+          width="80"
+          radius="{1}"
+          color="#4066ff"
+          arial-label="puff-loading"
+        />
+      </div>
+    );
+  }
 
 if(isLoading){
     return(
