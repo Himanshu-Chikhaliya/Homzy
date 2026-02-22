@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "2.0.1",
+    "@cloudinary/react": "^1.14.4",
+    "@cloudinary/url-gen": "^1.22.0",
     "@emotion/react": "^11.11.4",
     "@mantine/core": "^7.10.1",
     "@mantine/dates": "^7.10.1",
