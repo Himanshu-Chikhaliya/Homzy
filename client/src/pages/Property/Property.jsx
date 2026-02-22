@@ -18,6 +18,11 @@ import { Button, MantineProvider } from '@mantine/core';
 import { toast } from 'react-toastify';
 import Heart from '../../components/Heart/Heart.jsx';
 
+import { AdvancedImage } from "@cloudinary/react";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import cld from "../../utils/cloudinaryConfig";
+
 const Property = () => {
 
     const { pathname } = useLocation()
@@ -25,6 +30,13 @@ const Property = () => {
     const { data, isLoading, isError } = useQuery(["resd", id], () =>
         getProperty(id)
     );
+
+    const img = data?.image
+        ? cld.image(data.image.split('/').pop().split('.')[0])
+            .format('auto')
+            .quality('auto')
+            .resize(auto().gravity(autoGravity()).width(1200).height(600))
+        : null;
 
     const [modalOpened, setModalOpened] = useState(false)
     const { validateLogin } = useAuthCheck()
@@ -76,7 +88,7 @@ const Property = () => {
                 </div>
 
                 {/* image */}
-                <img src={data?.image} alt="home image" />
+                {img && <AdvancedImage cldImg={img} alt="home image" />}
 
                 <div className="flexCenter property-details">
 
@@ -131,9 +143,9 @@ const Property = () => {
                             bookings?.map((bookings) => bookings.id).includes(id) ? (
                                 <>
                                     <MantineProvider>
-                                    <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
-                                        <span>Cancel booking</span>
-                                    </Button>
+                                        <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
+                                            <span>Cancel booking</span>
+                                        </Button>
                                     </MantineProvider>
 
                                     <span>

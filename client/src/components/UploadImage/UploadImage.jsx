@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import "./UploadImage.css";
 import { Button, Group } from "@mantine/core";
+import "./UploadImage.css";
+import { AdvancedImage } from "@cloudinary/react";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import cld from "../../utils/cloudinaryConfig";
+
 const UploadImage = ({
   propertyDetails,
   setPropertyDetails,
@@ -11,6 +16,16 @@ const UploadImage = ({
   const [imageURL, setImageURL] = useState(propertyDetails.image);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
+
+  // Create a Cloudinary image object if we have a URL
+  // We extract the public ID or use the URL string
+  const img = imageURL
+    ? cld.image(imageURL.split('/').pop().split('.')[0]) // Simple extraction of public id from url
+      .format('auto')
+      .quality('auto')
+      .resize(auto().gravity(autoGravity()).width(500).height(500))
+    : null;
+
   const handleNext = () => {
     setPropertyDetails((prev) => ({ ...prev, image: imageURL }));
     nextStep();
@@ -45,7 +60,7 @@ const UploadImage = ({
           className="uploadedImage"
           onClick={() => widgetRef.current?.open()}
         >
-          <img src={imageURL} alt="" />
+          <AdvancedImage cldImg={img} />
         </div>
       )}
 
