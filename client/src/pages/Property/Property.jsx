@@ -14,7 +14,7 @@ import useAuthCheck from '../../hooks/useAuthCheck';
 import { useAuth0 } from '@auth0/auth0-react';
 import BookingModal from '../../components/BookingModal/BookingModal.jsx';
 import UserDetailContext from '../../Context/UseDetailContext.js';
-import { Button, MantineProvider } from '@mantine/core';
+import { Button } from '@mantine/core';
 import { toast } from 'react-toastify';
 import Heart from '../../components/Heart/Heart.jsx';
 
@@ -61,6 +61,17 @@ const Property = () => {
         }
     })
 
+    const { mutate: deleteResidencyMutation, isLoading: deleting } = useMutation({
+        mutationFn: () => removeResidency(id, user?.email, token),
+        onSuccess: () => {
+            toast.success("Property deleted successfully", { position: "bottom-right" });
+            navigate("/properties");
+        },
+        onError: (err) => {
+            toast.error(err.message, { position: "bottom-right" });
+        }
+    });
+
 
     if (isLoading) {
         return (
@@ -82,16 +93,6 @@ const Property = () => {
         )
     }
 
-    const { mutate: deleteResidencyMutation, isLoading: deleting } = useMutation({
-        mutationFn: () => removeResidency(id, user?.email, token),
-        onSuccess: () => {
-            toast.success("Property deleted successfully", { position: "bottom-right" });
-            navigate("/properties");
-        },
-        onError: (err) => {
-            toast.error(err.message, { position: "bottom-right" });
-        }
-    });
 
     return (
         <div className='wrapper'>
@@ -169,11 +170,9 @@ const Property = () => {
                         {
                             bookings?.some((booking) => booking.id === id) ? (
                                 <>
-                                    <MantineProvider>
-                                        <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
-                                            <span>Cancel booking</span>
-                                        </Button>
-                                    </MantineProvider>
+                                    <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
+                                        <span>Cancel booking</span>
+                                    </Button>
 
                                     <span>
                                         Your visit already booked for date {bookings?.find((booking) => booking?.id === id)?.date}
