@@ -152,12 +152,12 @@ const Property = () => {
                             <MdLocationPin size={25} />
 
                             <span className="secondaryText" >
-                                {data?.address}{""}{data?.city}{""}{data?.country}
+                                {data?.address}, {data?.city}, {data?.country}
                             </span>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flexCenter" style={{ gap: "1rem", width: "100%" }}>
+                        <div className="flexCenter" style={{ gap: "1rem", width: "100%", display: "flex" }}>
                             {/* delete button */}
                             {user?.email === data?.userEmail && (
                                 <Button
@@ -165,6 +165,7 @@ const Property = () => {
                                     color="red"
                                     onClick={() => setDeleteModalOpened(true)}
                                     disabled={deleting}
+                                    style={{ flex: 1 }}
                                 >
                                     Delete Property
                                 </Button>
@@ -172,7 +173,7 @@ const Property = () => {
 
                             {/* booking button  */}
                             {bookings?.some((booking) => booking.id === id) ? (
-                                <div className="flexColStart" style={{ width: "100%" }}>
+                                <div className="flexColStart" style={{ width: "100%", flex: user?.email === data?.userEmail ? 1 : "unset" }}>
                                     <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
                                         <span>Cancel booking</span>
                                     </Button>
@@ -187,6 +188,7 @@ const Property = () => {
                                     onClick={() => {
                                         validateLogin() && setModalOpened(true)
                                     }}
+                                    style={{ flex: 1 }}
                                 >
                                     Book your visit
                                 </Button>

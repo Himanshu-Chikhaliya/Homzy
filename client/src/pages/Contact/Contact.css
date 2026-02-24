@@ -1,0 +1,60 @@
+.c-container {
+  gap: 2rem;
+}
+.c-left {
+  gap: 0.5rem;
+}
+.contactModes {
+  margin-top: 2rem;
+  gap: 1.5rem;
+  width: 100%;
+}
+.row {
+  gap: 1.5rem;
+}
+.mode {
+  width: 15rem;
+  padding: 1rem;
+  border: 0.8px solid rgba(128, 128, 128, 0.143);
+  border-radius: 5px;
+  gap: 1rem;
+  transition: all 400ms ease;
+}
+.mode:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow);
+}
+.icon {
+  background: var(--lightBlue);
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--blue);
+}
+.mode .button {
+  width: 100%;
+  background: var(--lightBlue);
+  color: var(--blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px;
+}
+.mode .button:hover {
+  background: var(--blue);
+  color: white;
+}
+
+@media (max-width: 1024px) {
+  .c-container > div {
+    width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .mode {
+    width: 100%;
+  }
+}

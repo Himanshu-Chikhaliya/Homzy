@@ -13,6 +13,7 @@ import Property from "./pages/Property/Property";
 import UserDetailContext from "./Context/UseDetailContext";
 import Bookings from "./pages/Bookings/Bookings";
 import Favourites from "./pages/Favourites/Favourites";
+import Contact from "./pages/Contact/Contact";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
@@ -44,6 +45,7 @@ function App() {
 
                   <Route path="/bookings" element={<Bookings />} />
                   <Route path="/favourites" element={<Favourites />} />
+                  <Route path="/contact" element={<Contact />} />
                 </Route>
               </Routes>
             </Suspense>
