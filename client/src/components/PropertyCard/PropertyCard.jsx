@@ -10,11 +10,13 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import cld from "../../utils/cloudinaryConfig";
 
+import { getPublicIdFromURL } from "../../utils/common";
+
 const PropertyCard = ({ card }) => {
 
     const navigate = useNavigate();
 
-    const img = cld.image(card.image.split('/').pop().split('.')[0])
+    const img = cld.image(getPublicIdFromURL(card.image))
         .format('auto')
         .quality('auto')
         .resize(auto().gravity(autoGravity()).width(500).height(500));

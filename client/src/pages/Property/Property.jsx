@@ -23,6 +23,8 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import cld from "../../utils/cloudinaryConfig";
 
+import { getPublicIdFromURL } from "../../utils/common";
+
 const Property = () => {
 
     const { pathname } = useLocation()
@@ -32,7 +34,7 @@ const Property = () => {
     );
 
     const img = data?.image
-        ? cld.image(data.image.split('/').pop().split('.')[0])
+        ? cld.image(getPublicIdFromURL(data.image))
             .format('auto')
             .quality('auto')
             .resize(auto().gravity(autoGravity()).width(1200).height(600))

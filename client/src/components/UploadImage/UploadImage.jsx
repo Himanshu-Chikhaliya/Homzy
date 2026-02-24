@@ -7,6 +7,8 @@ import { auto } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import cld from "../../utils/cloudinaryConfig";
 
+import { getPublicIdFromURL } from "../../utils/common";
+
 const UploadImage = ({
   propertyDetails,
   setPropertyDetails,
@@ -20,7 +22,7 @@ const UploadImage = ({
   // Create a Cloudinary image object if we have a URL
   // We extract the public ID or use the URL string
   const img = imageURL
-    ? cld.image(imageURL.split('/').pop().split('.')[0]) // Simple extraction of public id from url
+    ? cld.image(getPublicIdFromURL(imageURL))
       .format('auto')
       .quality('auto')
       .resize(auto().gravity(autoGravity()).width(500).height(500))
