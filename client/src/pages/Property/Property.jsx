@@ -14,7 +14,7 @@ import useAuthCheck from '../../hooks/useAuthCheck';
 import { useAuth0 } from '@auth0/auth0-react';
 import BookingModal from '../../components/BookingModal/BookingModal.jsx';
 import UserDetailContext from '../../Context/UseDetailContext.js';
-import { Button } from '@mantine/core';
+import { Button, Modal, Text, Group } from '@mantine/core';
 import { toast } from 'react-toastify';
 import Heart from '../../components/Heart/Heart.jsx';
 
@@ -43,6 +43,7 @@ const Property = () => {
         : null;
 
     const [modalOpened, setModalOpened] = useState(false)
+    const [deleteModalOpened, setDeleteModalOpened] = useState(false)
     const { validateLogin } = useAuthCheck()
     const { user } = useAuth0();
 
@@ -103,17 +104,6 @@ const Property = () => {
                     <Heart id={id} />
                 </div>
 
-                {/* delete button */}
-                {user?.email === data?.userEmail && (
-                    <button
-                        className="button"
-                        style={{ backgroundColor: "red", position: "absolute", top: "16rem", right: "2rem" }}
-                        onClick={() => deleteResidencyMutation()}
-                        disabled={deleting}
-                    >
-                        Delete Property
-                    </button>
-                )}
 
                 {/* image */}
                 {img ? <AdvancedImage cldImg={img} alt="home image" /> : <img src={data?.image} alt="home image" style={{ width: "100%", maxHeight: "600px", objectFit: "cover" }} />}
@@ -166,27 +156,67 @@ const Property = () => {
                             </span>
                         </div>
 
-                        {/* booking button  */}
-                        {
-                            bookings?.some((booking) => booking.id === id) ? (
-                                <>
+                        {/* Action Buttons */}
+                        <div className="flexCenter" style={{ gap: "1rem", width: "100%" }}>
+                            {/* delete button */}
+                            {user?.email === data?.userEmail && (
+                                <Button
+                                    fullWidth
+                                    color="red"
+                                    onClick={() => setDeleteModalOpened(true)}
+                                    disabled={deleting}
+                                >
+                                    Delete Property
+                                </Button>
+                            )}
+
+                            {/* booking button  */}
+                            {bookings?.some((booking) => booking.id === id) ? (
+                                <div className="flexColStart" style={{ width: "100%" }}>
                                     <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
                                         <span>Cancel booking</span>
                                     </Button>
 
-                                    <span>
+                                    <span className='secondaryText'>
                                         Your visit already booked for date {bookings?.find((booking) => booking?.id === id)?.date}
                                     </span>
-                                </>
+                                </div>
                             ) : (
-                                <button className="button"
+                                <Button
+                                    fullWidth
                                     onClick={() => {
                                         validateLogin() && setModalOpened(true)
                                     }}
                                 >
                                     Book your visit
-                                </button>
+                                </Button>
                             )}
+                        </div>
+
+                        {/* Deletion Confirmation Modal */}
+                        <Modal
+                            opened={deleteModalOpened}
+                            onClose={() => setDeleteModalOpened(false)}
+                            title="Confirm Deletion"
+                            centered
+                        >
+                            <div className="flexColCenter" style={{ gap: "1rem" }}>
+                                <Text size="sm">
+                                    Are you sure you want to delete this property? This action cannot be undone.
+                                </Text>
+                                <Group position="center">
+                                    <Button variant="default" onClick={() => setDeleteModalOpened(false)}>
+                                        Cancel
+                                    </Button>
+                                    <Button color="red" onClick={() => {
+                                        deleteResidencyMutation();
+                                        setDeleteModalOpened(false);
+                                    }}>
+                                        Confirm Delete
+                                    </Button>
+                                </Group>
+                            </div>
+                        </Modal>
 
                         <BookingModal
                             opened={modalOpened}
