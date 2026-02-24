@@ -16,16 +16,19 @@ const PropertyCard = ({ card }) => {
 
     const navigate = useNavigate();
 
-    const img = cld.image(getPublicIdFromURL(card.image))
-        .format('auto')
-        .quality('auto')
-        .resize(auto().gravity(autoGravity()).width(500).height(500));
+    const publicId = getPublicIdFromURL(card?.image);
+    const img = publicId
+        ? cld.image(publicId)
+            .format('auto')
+            .quality('auto')
+            .resize(auto().gravity(autoGravity()).width(500).height(500))
+        : null;
 
     return (
         <div className="flexColStart r-card" onClick={() => navigate(`../properties/${card.id}`)}>
             {/* <AiFillHeart size={24} color="white" /> */}
             <Heart id={card?.id} />
-            <AdvancedImage cldImg={img} alt="home" />
+            {img ? <AdvancedImage cldImg={img} alt="home" /> : <img src={card?.image} alt="home" />}
 
             <span className="secondaryText r-price">
                 <span style={{ color: "orange" }}>$</span>

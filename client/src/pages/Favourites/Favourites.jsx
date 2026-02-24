@@ -12,18 +12,13 @@ const Favourites = () => {
 
     const { data, isError, isLoading } = useProperties()
     const [filter, setFilter] = useState("")
-    const {userDetails: {favourites}} = useContext(UserDetailContext)
+    const { userDetails } = useContext(UserDetailContext)
+    const favourites = userDetails?.favourites || []
 
     if (isError) {
         return (
             <div className="wrapper flexCenter" style={{ height: "60vh" }}>
-                <PuffLoader
-                    height="80"
-                    width="80"
-                    radius="{1}"
-                    color="#4066ff"
-                    arial-label="puff-loading"
-                />
+                <span>Error while fetching data</span>
             </div>
         )
     }
@@ -34,7 +29,7 @@ const Favourites = () => {
                 <PuffLoader
                     height="80"
                     width="80"
-                    radius="{1}"
+                    radius={1}
                     color="#4066ff"
                     arial-label="puff-loading"
                 />
@@ -49,19 +44,18 @@ const Favourites = () => {
 
                 <div className="paddings flexCenter properties">
                     {
-                        // data.map((card, i) => (<PropertyCard card={card} key={i}/>))
                         data
-                        .filter((property)=>
-                            favourites.includes(property?.id)
-                        )
-                        .filter((property) => 
-                            property.title.toLowerCase().includes(filter.toLowerCase()) ||
-                            property.city.toLowerCase().includes(filter.toLowerCase()) || 
-                            property.country.toLowerCase().includes(filter.toLowerCase())
-                        )
-                        .map((card, i) => (
-                            <PropertyCard card={card} key={i} />
-                        ))
+                            .filter((property) =>
+                                favourites.includes(property?.id)
+                            )
+                            .filter((property) =>
+                                (property?.title?.toLowerCase() || "").includes(filter.toLowerCase()) ||
+                                (property?.city?.toLowerCase() || "").includes(filter.toLowerCase()) ||
+                                (property?.country?.toLowerCase() || "").includes(filter.toLowerCase())
+                            )
+                            .map((card, i) => (
+                                <PropertyCard card={card} key={i} />
+                            ))
                     }
                 </div>
             </div>

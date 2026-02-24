@@ -34,8 +34,9 @@ const Property = () => {
         getProperty(id)
     );
 
-    const img = data?.image
-        ? cld.image(getPublicIdFromURL(data.image))
+    const publicId = getPublicIdFromURL(data?.image);
+    const img = publicId
+        ? cld.image(publicId)
             .format('auto')
             .quality('auto')
             .resize(auto().gravity(autoGravity()).width(1200).height(600))
@@ -114,7 +115,7 @@ const Property = () => {
                 )}
 
                 {/* image */}
-                {img && <AdvancedImage cldImg={img} alt="home image" />}
+                {img ? <AdvancedImage cldImg={img} alt="home image" /> : <img src={data?.image} alt="home image" style={{ width: "100%", maxHeight: "600px", objectFit: "cover" }} />}
 
                 <div className="flexCenter property-details">
 
@@ -166,7 +167,7 @@ const Property = () => {
 
                         {/* booking button  */}
                         {
-                            bookings?.map((bookings) => bookings.id).includes(id) ? (
+                            bookings?.some((booking) => booking.id === id) ? (
                                 <>
                                     <MantineProvider>
                                         <Button variant='outline' w={"100%"} color='red' onClick={() => cancelBooking()} disabled={cancelling}>
@@ -175,7 +176,7 @@ const Property = () => {
                                     </MantineProvider>
 
                                     <span>
-                                        Your visit already booked for date {bookings?.filter((booking) => booking?.id === id)[0].date}
+                                        Your visit already booked for date {bookings?.find((booking) => booking?.id === id)?.date}
                                     </span>
                                 </>
                             ) : (
