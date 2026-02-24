@@ -1,18 +1,18 @@
- import axios from 'axios'
+import axios from 'axios'
 import dayjs, { Dayjs } from 'dayjs'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 
 export const api = axios.create({
     baseURL: "https://homzy-phi.vercel.app/api",
 })
 
-export const getAllProperties  = async() => {
+export const getAllProperties = async () => {
     try {
-        const response = await api.get("/residency/allresd",{
-            timeout:10*1000,
+        const response = await api.get("/residency/allresd", {
+            timeout: 10 * 1000,
         })
 
-        if(response.status === 400 || response.status === 500){
+        if (response.status === 400 || response.status === 500) {
             throw response.data;
         }
         return response.data;
@@ -22,13 +22,13 @@ export const getAllProperties  = async() => {
     }
 }
 
-export const getProperty = async( id) => {
+export const getProperty = async (id) => {
     try {
-        const response = await api.get(`/residency/${id}`,{
-            timeout:10*1000,
+        const response = await api.get(`/residency/${id}`, {
+            timeout: 10 * 1000,
         })
 
-        if(response.status === 400 || response.status === 500){
+        if (response.status === 400 || response.status === 500) {
             throw response.data;
         }
         return response.data;
@@ -39,15 +39,15 @@ export const getProperty = async( id) => {
 }
 
 
-export const createUser = async(email, token) => {
+export const createUser = async (email, token) => {
     try {
-        await api.post(`/user/register`,{email},
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
+        await api.post(`/user/register`, { email },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
             }
-        }
-    )
+        )
     } catch (error) {
         toast.error("omething went wrong, Please try again")
         throw error
@@ -55,17 +55,17 @@ export const createUser = async(email, token) => {
 }
 
 
-export const bookVisit = async(date, propertyId, email, token)=>{
+export const bookVisit = async (date, propertyId, email, token) => {
     try {
-        await api.post(`/user/bookVisit/${propertyId}`,{
-                email,
-                id: propertyId,
-                date: dayjs(date).format("DD/MM/YYYY"),
-            },
+        await api.post(`/user/bookVisit/${propertyId}`, {
+            email,
+            id: propertyId,
+            date: dayjs(date).format("DD/MM/YYYY"),
+        },
             {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`,
-                    
+
                 }
             }
 
@@ -77,15 +77,15 @@ export const bookVisit = async(date, propertyId, email, token)=>{
 }
 
 
-export const removeBooking = async(id, email, token)=>{
+export const removeBooking = async (id, email, token) => {
     try {
-        await api.post(`/user/removeBooking/${id}`,{
-                email,
-            },
+        await api.post(`/user/removeBooking/${id}`, {
+            email,
+        },
             {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`,
-                    
+
                 }
             }
 
@@ -97,15 +97,15 @@ export const removeBooking = async(id, email, token)=>{
 }
 
 
-export const toFav = async(id, email, token)=>{
+export const toFav = async (id, email, token) => {
     try {
-        await api.post(`/user/toFav/${id}`,{
-                email,
-            },
+        await api.post(`/user/toFav/${id}`, {
+            email,
+        },
             {
-                headers:{
+                headers: {
                     Authorization: `Bearer ${token}`,
-                    
+
                 },
             }
 
@@ -118,8 +118,8 @@ export const toFav = async(id, email, token)=>{
 
 
 export const getAllFav = async (email, token) => {
-    if(!token) return
-    try{
+    if (!token) return
+    try {
 
         const res = await api.post(
             `/user/allFav`,
@@ -135,17 +135,17 @@ export const getAllFav = async (email, token) => {
 
         return res.data["favResidenciesID"]
 
-    }catch(e){
+    } catch (e) {
         toast.error("Something went wrong while fetching favs ");
         throw e
-     }
+    }
 }
 
 
 
 export const getAllBookings = async (email, token) => {
-    if(!token) return
-    try{
+    if (!token) return
+    try {
 
         const res = await api.post(
             `/user/allBookings`,
@@ -161,28 +161,40 @@ export const getAllBookings = async (email, token) => {
 
         return res.data["bookedVisits"]
 
-    }catch(e){
+    } catch (e) {
         toast.error("Something went wrong while fetching bookings ");
         throw e
-     }
+    }
 }
 
 export const createResidency = async (data, token) => {
     console.log(data)
-    try{
-      const res = await api.post(
-        `/residency/create`,
-        {
-          data
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-    }catch(error)
-    {
-      throw error
+    try {
+        const res = await api.post(
+            `/residency/create`,
+            {
+                data
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        )
+    } catch (error) {
+        throw error
     }
 }
+
+export const removeResidency = async (id, email, token) => {
+    try {
+        const res = await api.delete(`/residency/remove/${id}`, {
+            data: { email },
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    } catch (error) {
+        throw error;
+    }
+};

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './Property.css'
 import { useMutation, useQuery } from 'react-query'
-import { useLocation } from 'react-router-dom';
-import { getProperty, removeBooking } from '../../utils/api'
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getProperty, removeBooking, removeResidency } from '../../utils/api'
 import { PuffLoader } from 'react-spinners';
 import { AiFillHeart } from 'react-icons/ai';
 
@@ -28,6 +28,7 @@ import { getPublicIdFromURL } from "../../utils/common";
 const Property = () => {
 
     const { pathname } = useLocation()
+    const navigate = useNavigate()
     const id = pathname.split("/").slice(-1)[0]
     const { data, isLoading, isError } = useQuery(["resd", id], () =>
         getProperty(id)
@@ -80,6 +81,17 @@ const Property = () => {
         )
     }
 
+    const { mutate: deleteResidencyMutation, isLoading: deleting } = useMutation({
+        mutationFn: () => removeResidency(id, user?.email, token),
+        onSuccess: () => {
+            toast.success("Property deleted successfully", { position: "bottom-right" });
+            navigate("/properties");
+        },
+        onError: (err) => {
+            toast.error(err.message, { position: "bottom-right" });
+        }
+    });
+
     return (
         <div className='wrapper'>
             <div className="flexColCenter paddings innerWidth property-container">
@@ -88,6 +100,18 @@ const Property = () => {
                 <div className="like">
                     <Heart id={id} />
                 </div>
+
+                {/* delete button */}
+                {user?.email === data?.userEmail && (
+                    <button
+                        className="button"
+                        style={{ backgroundColor: "red", position: "absolute", top: "16rem", right: "2rem" }}
+                        onClick={() => deleteResidencyMutation()}
+                        disabled={deleting}
+                    >
+                        Delete Property
+                    </button>
+                )}
 
                 {/* image */}
                 {img && <AdvancedImage cldImg={img} alt="home image" />}
